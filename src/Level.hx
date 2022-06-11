@@ -1,3 +1,5 @@
+import en.collectibles.FlameUp;
+import en.collectibles.Gems;
 import hxd.Timer;
 import scn.GameOver;
 import scn.Pause;
@@ -95,11 +97,11 @@ class Level extends dn.Process {
 
     // Collectibles
     for (eFlameUp in data.l_Entities.all_FlameUp) {
-      collectibles.add(new Collectible(eFlameUp.cx, eFlameUp.cy));
+      collectibles.add(new FlameUp(eFlameUp.cx, eFlameUp.cy));
     }
 
     for (eGem in data.l_Entities.all_Gems) {
-      collectibles.add(new Collectible(eGem.cx, eGem.cy));
+      collectibles.add(new Gems(eGem.cx, eGem.cy));
     }
 
     // Enemies
@@ -121,6 +123,24 @@ class Level extends dn.Process {
 
   public function hasAnyCollision(cx:Int, cy:Int) {
     return false;
+  }
+
+  public function hasAnyEnemyCollision(cx:Int, cy:Int) {
+    for (enemy in enemies) {
+      if (enemy.cx == cx && enemy.cy == cy && enemy.isAlive()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public function getCollectible(cx:Int, cy:Int) {
+    for (collectible in collectibles) {
+      if (collectible.cx == cx && collectible.cy == cy && collectible.isAlive()) {
+        return collectible;
+      }
+    }
+    return null;
   }
 
   /**

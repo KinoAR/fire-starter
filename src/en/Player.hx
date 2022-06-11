@@ -112,7 +112,33 @@ class Player extends BaseEnt {
     }
   }
 
-  function updateCollision() {}
+  function updateCollision() {
+    handleCollectible();
+    handleEnemyCollision();
+  }
+
+  function handleCollectible() {
+    var collectible = level.getCollectible(cx, cy);
+    if (collectible != null) {
+      var collectibleType = Type.getClass(collectible);
+      switch (collectibleType) {
+        case en.collectibles.FlameUp:
+          // Adds flame up to the player
+          collectible.destroy();
+        case en.collectibles.Gems:
+          // Increases the player score when they collide with
+          // the element.
+          level.score += 1000;
+          collectible.destroy();
+      }
+    }
+  }
+
+  function handleEnemyCollision() {
+    if (level.hasAnyEnemyCollision(cx, cy)) {
+      takeDamage();
+    }
+  }
 
   override function postUpdate() {
     super.postUpdate();
