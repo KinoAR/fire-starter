@@ -1,3 +1,7 @@
+import scn.GameOver;
+import scn.Pause;
+import en.enemy.Collector;
+import en.enemy.Peeker;
 import en.enemy.Enemy;
 import en.Player;
 import en.Collectible;
@@ -39,6 +43,7 @@ class Level extends dn.Process {
 
   var invalidated = true;
 
+  public var scnPause:Pause;
   public var collectibles:Group<Collectible>;
   public var enemies:Group<Enemy>;
   public var player:Player;
@@ -100,12 +105,39 @@ class Level extends dn.Process {
     for (eEnemy in data.l_Entities.all_BasicEnemy) {
       enemies.add(new Enemy(eEnemy.cx, eEnemy.cy, eEnemy.f_Depth));
     }
+
+    for (eCollector in data.l_Entities.all_Collector) {
+      enemies.add(new Collector(eCollector.cx, eCollector.cy,
+        eCollector.f_Depth));
+    }
+
+    for (ePeeker in data.l_Entities.all_Peeker) {
+      enemies.add(new Peeker(ePeeker.cx, ePeeker.cy, ePeeker.f_Depth));
+    }
   }
 
   // Collision Functions
 
   public function hasAnyCollision(cx:Int, cy:Int) {
     return false;
+  }
+
+  /**
+   * Handles pausing the game
+   */
+  public function handlePause() {
+    if (game.ca.isKeyboardPressed(K.ESCAPE)) {
+      Assets.pauseIn.play();
+      this.pause();
+      scnPause = new Pause();
+    }
+  }
+
+  public function handleGameOver() {
+    if (player.isDead()) {
+      this.pause();
+      new GameOver();
+    }
   }
 
   function render() {
@@ -121,6 +153,12 @@ class Level extends dn.Process {
           g.beginFill(Color.randomColor(rnd(0, 1), 0.5, 0.4));
         g.drawRect(cx * Const.GRID, cy * Const.GRID, Const.GRID, Const.GRID);
       }
+  }
+
+  override function update() {
+    super.update();
+    handlePause();
+    handleGameOver();
   }
 
   override function postUpdate() {

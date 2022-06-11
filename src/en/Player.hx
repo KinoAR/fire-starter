@@ -87,6 +87,10 @@ class Player extends BaseEnt {
     // }
   }
 
+  public function isDead() {
+    return this.health > 0;
+  }
+
   override function update() {
     super.update();
     updateInvincibility();
