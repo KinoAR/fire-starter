@@ -21,6 +21,8 @@ class Assets {
   public static var pauseIn:Sound;
   public static var pauseOut:Sound;
 
+  public static var projData:LDTkProj;
+
   static var initDone = false;
 
   public static function init() {
@@ -45,7 +47,7 @@ class Assets {
     pauseOut = hxd.Res.sound.pause_out;
 
     // // Deep night project
-    // projData = new ldtkData.LDTkProj();
+    projData = new ldtkData.LDTkProj();
 
     // #if debug
     // // Gets the file entry for the LDtk file then uses it later

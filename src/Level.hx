@@ -48,11 +48,15 @@ class Level extends dn.Process {
 
   public var timer:Float;
   public var bg:h2d.Graphics;
+  public var data:LDTkProj_Level;
 
   // public var data:Ldtk
 
-  public function new() {
+  public function new(?level:LDTkProj_Level) {
     super(Game.ME);
+    if (level != null) {
+      this.data = level;
+    }
     createRootInLayers(Game.ME.scroller, Const.DP_BG);
     createGroups();
     createEntities();
@@ -78,7 +82,22 @@ class Level extends dn.Process {
     enemies = new Group<Enemy>();
   }
 
-  public function createEntities() {}
+  public function createEntities() {
+    for (ePlayer in data.l_Entities.all_Player) {
+      player = new Player(ePlayer.cx, ePlayer.cy);
+    }
+
+    // Collectibles
+    for (eFlameUp in data.l_Entities.all_FlameUp) {
+      collectibles.add(new Collectible(eFlameUp.cx, eFlameUp.cy));
+    }
+
+    for (eGem in data.l_Entities.all_Gems) {
+      collectibles.add(new Collectible(eGem.cx, eGem.cy));
+    }
+
+    // Enemies
+  }
 
   // Collision Functions
 
