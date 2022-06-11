@@ -1,3 +1,4 @@
+import hxd.Timer;
 import scn.GameOver;
 import scn.Pause;
 import en.enemy.Collector;
@@ -138,6 +139,11 @@ class Level extends dn.Process {
       this.pause();
       new GameOver();
     }
+  }
+
+  public function handleTimer() {
+    timer += Timer.elapsedTime;
+    game.invalidateHud();
   }
 
   function render() {
