@@ -1,3 +1,7 @@
+import en.enemy.Enemy;
+import en.Player;
+import en.Collectible;
+
 class Level extends dn.Process {
   var game(get, never):Game;
 
@@ -35,9 +39,23 @@ class Level extends dn.Process {
 
   var invalidated = true;
 
+  public var collectibles:Group<Collectible>;
+  public var enemies:Group<Enemy>;
+  public var player:Player;
+
+  public var score:Int;
+  public var highScore:Int;
+
+  public var timer:Float;
+  public var bg:h2d.Graphics;
+
+  // public var data:Ldtk
+
   public function new() {
     super(Game.ME);
     createRootInLayers(Game.ME.scroller, Const.DP_BG);
+    createGroups();
+    createEntities();
   }
 
   /** TRUE if given coords are in level bounds **/
@@ -51,6 +69,21 @@ class Level extends dn.Process {
   /** Ask for a level render that will only happen at the end of the current frame. **/
   public inline function invalidate() {
     invalidated = true;
+  }
+
+  // Setup Functions
+
+  public function createGroups() {
+    collectibles = new Group<Collectible>();
+    enemies = new Group<Enemy>();
+  }
+
+  public function createEntities() {}
+
+  // Collision Functions
+
+  public function hasAnyCollision(cx:Int, cy:Int) {
+    return false;
   }
 
   function render() {
@@ -74,6 +107,18 @@ class Level extends dn.Process {
     if (invalidated) {
       invalidated = false;
       render();
+    }
+  }
+
+  override function onDispose() {
+    player.dispose();
+
+    for (collectible in collectibles) {
+      collectible.destroy();
+    }
+
+    for (enemy in enemies) {
+      enemy.destroy();
     }
   }
 }
