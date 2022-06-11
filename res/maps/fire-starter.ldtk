@@ -373,7 +373,22 @@
 					"seed": 8695787,
 					"overrideTilesetUid": null,
 					"gridTiles": [],
-					"entityInstances": []
+					"entityInstances": [
+						{
+							"__identifier": "Player",
+							"__grid": [7,6],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#7C9CFF",
+							"iid": "24bd0d00-dbe0-11ec-a604-a5d62fb21b16",
+							"width": 16,
+							"height": 16,
+							"defUid": 7,
+							"px": [112,96],
+							"fieldInstances": []
+						}
+					]
 				},
 				{
 					"__identifier": "Decoration",

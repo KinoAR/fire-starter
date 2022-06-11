@@ -97,6 +97,9 @@ class Level extends dn.Process {
     }
 
     // Enemies
+    for (eEnemy in data.l_Entities.all_BasicEnemy) {
+      enemies.add(new Enemy(eEnemy.cx, eEnemy.cy, eEnemy.f_Depth));
+    }
   }
 
   // Collision Functions

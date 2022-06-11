@@ -11,7 +11,7 @@ class Const {
    * The size of the grid used in game when it comes to how collisions are checked within the engine.
    * 
    */
-  public static inline var GRID = 8;
+  public static inline var GRID = 16;
 
   public static inline var INFINITE = 999999;
 

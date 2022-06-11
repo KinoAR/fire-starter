@@ -36,11 +36,9 @@ class Game extends dn.Process {
     scroller.filter = new h2d.filter.ColorMatrix(); // force rendering for pixel perfect
 
     camera = new Camera();
-    level = new Level();
-    fx = new Fx();
     hud = new ui.Hud();
     hud.hide();
-
+    startInitialGame();
     Process.resizeAll();
     trace(Lang.t._("Game is ready."));
   }
@@ -53,7 +51,7 @@ class Game extends dn.Process {
     // Play Game Loop Music
     // bgm = hxd.Res.music.juhani_stage.play(true, 0.5);
     // level = new Level(proj.all_levels.Level_0);
-    level = new Level();
+    level = new Level(Assets.projData.all_levels.Level_0);
     hud.show();
     fx = new Fx();
   }
@@ -94,27 +92,29 @@ class Game extends dn.Process {
   //     #end
   //   }
   // }
-  // public function reloadCurrentLevel() {
-  //   if (level != null) {
-  //     if (level.data != null) {
-  //       startLevel(Assets.projData.getLevel(level.data.uid));
-  //     }
-  //   }
-  // }
-  // public function startLevel(ldtkLevel:LDTkProj_Level, startX = -1,
-  //     startY = -1) {
-  //   if (level != null) {
-  //     level.destroy();
-  //   }
-  //   fx.clear();
-  //   for (entity in Entity.ALL) {
-  //     entity.destroy();
-  //   }
-  //   gc();
-  //   // Create new level
-  //   level = new Level(ldtkLevel, startX, startY);
-  //   // Will be using the looping mechanisms
-  // }
+
+  public function reloadCurrentLevel() {
+    if (level != null) {
+      if (level.data != null) {
+        startLevel(Assets.projData.getLevel(level.data.uid));
+      }
+    }
+  }
+
+  public function startLevel(ldtkLevel:LDTkProj_Level, startX = -1,
+      startY = -1) {
+    if (level != null) {
+      level.destroy();
+    }
+    fx.clear();
+    for (entity in Entity.ALL) {
+      entity.destroy();
+    }
+    gc();
+    // Create new level
+    level = new Level(ldtkLevel);
+    // Will be using the looping mechanisms
+  }
 
   /** Window/app resize event **/
   override function onResize() {
