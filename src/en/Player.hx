@@ -9,6 +9,7 @@ class Player extends BaseEnt {
 
   public static inline var MOVE_SPD:Float = .1;
   public static inline var JUMP_FORCE:Float = 1;
+  public static inline var HEALTH_CAP:Int = 3;
 
   public var isInvincible(get, null):Bool;
 
@@ -130,6 +131,8 @@ class Player extends BaseEnt {
           // the element.
           level.score += 1000;
           collectible.destroy();
+        case en.collectibles.Heart:
+          this.health = M.iclamp(this.health + 1, 0, HEALTH_CAP);
       }
     }
   }
