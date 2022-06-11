@@ -1,0 +1,12 @@
+-cp src
+# Libraries
+-lib castle
+-lib heaps
+-lib ldtk-haxe-api
+-lib deepnightLibs
+-lib heaps-aseprite
+
+# Main
+-main Boot
+# Dead Code Elimitation
+-dce full
