@@ -1,5 +1,7 @@
 package ui;
 
+import ext.HTools.smallText;
+
 class Hud extends dn.Process {
   public var game(get, never):Game;
 
@@ -19,6 +21,10 @@ class Hud extends dn.Process {
   var flow:h2d.Flow;
   var invalidated = true;
 
+  var timerText:h2d.Text;
+  var scoreText:h2d.Text;
+  var highScoreText:h2d.Text;
+
   public function new() {
     super(Game.ME);
 
@@ -26,6 +32,26 @@ class Hud extends dn.Process {
     root.filter = new h2d.filter.ColorMatrix(); // force pixel perfect rendering
 
     flow = new h2d.Flow(root);
+    setupFlow();
+  }
+
+  public function setupFlow() {
+    flow.horizontalAlign = Middle;
+    flow.layout = Horizontal;
+    flow.paddingLeft = 12;
+    flow.horizontalSpacing = 12;
+
+    setupScore();
+    setupTimer();
+  }
+
+  function setupScore() {
+    scoreText = smallText('Score 0', flow);
+    highScoreText = smallText('High Score 0', flow);
+  }
+
+  function setupTimer() {
+    timerText = smallText('Time 0', flow);
   }
 
   override function onResize() {
@@ -36,7 +62,21 @@ class Hud extends dn.Process {
   public inline function invalidate()
     invalidated = true;
 
-  function render() {}
+  function render() {
+    if (level != null) {
+      renderScore();
+      renderTime();
+    }
+  }
+
+  function renderScore() {
+    scoreText.text = 'Score ${level.score}';
+    highScoreText.text = 'High Score ${level.highScore}';
+  }
+
+  function renderTime() {
+    timerText.text = 'Time ${level.timer}';
+  }
 
   override function postUpdate() {
     super.postUpdate();
