@@ -36,4 +36,8 @@ abstract Group<T>(Array<T>) from Array<T> {
   public inline function clear() {
     this.resize(0);
   }
+
+  public inline function firstWhere(fn:T -> Bool) {
+    return this.filter(fn).first();
+  }
 }

@@ -1,5 +1,7 @@
 package en;
 
+import h2d.col.Point;
+import h3d.Vector;
 import en.Bullet.BulletTag;
 import dn.legacy.Controller.ControllerAccess;
 
@@ -12,7 +14,8 @@ class Player extends BaseEnt {
   public static inline var JUMP_FORCE:Float = 1;
   public static inline var HEALTH_CAP:Int = 3;
 
-  public static inline var BULLET_AMT:Int = 5;
+  public static inline var BULLET_AMT:Int = 20;
+  public static inline var BULLET_CD:Float = 0.3;
 
   public var isInvincible(get, null):Bool;
 
@@ -107,6 +110,7 @@ class Player extends BaseEnt {
     updateInvincibility();
     updateCollision();
     handleMovement();
+    handleFiring();
   }
 
   public function updateInvincibility() {
@@ -166,6 +170,26 @@ class Player extends BaseEnt {
         dx = -MOVE_SPD;
       } else if (right) {
         dx = MOVE_SPD;
+      }
+    }
+  }
+
+  public function handleFiring() {
+    var fire = ct.aDown();
+    var coords = Boot.ME.s2d.mouseCoords();
+    var curX = this.spr.getAbsPos().x;
+    var curY = this.spr.getAbsPos().y;
+    var res = coords.sub(new Point(curX, curY));
+    res.normalize();
+    if (fire && !cd.has('Fired')) {
+      // Naive Implementation
+      // Instead we should just use a queue
+      var liveBullet = bulletPool.shift();
+      if (liveBullet != null) {
+        liveBullet.setPosPixel(this.spr.x, this.spr.y);
+        liveBullet.fire(res.toVec(), 0.2, BULLET_CD);
+        cd.setS('Fired', 0.1);
+        bulletPool.add(liveBullet);
       }
     }
   }

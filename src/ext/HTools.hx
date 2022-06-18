@@ -1,5 +1,6 @@
 package ext;
 
+import h2d.Scene;
 import ext.FuncExt.Pipe;
 import h2d.Font;
 import h2d.col.Point;
@@ -242,4 +243,8 @@ inline function text(font:Font, str:String, color:Int, root:h2d.Object) {
 // Graphics Updates
 inline function createGraphics(parent:h2d.Object) {
   return new h2d.Graphics(parent);
+}
+
+inline function mouseCoords(s2d:Scene) {
+  return new Point(s2d.mouseX, s2d.mouseY);
 }
