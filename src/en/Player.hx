@@ -170,11 +170,15 @@ class Player extends BaseEnt {
     }
   }
 
+  public function triggerInvincibility() {
+    cd.setS('invincibleTime', INVINCIBLE_TIME);
+  };
+
   override function takeDamage(value:Int = 1) {
     if (!isInvincible) {
       Game.ME.camera.shakeS(0.5, 0.5);
       super.takeDamage(value);
-      cd.setS('invincibleTime', INVINCIBLE_TIME);
+      triggerInvincibility();
       this.knockback(0.1, 0.2);
       Assets.damageSnd.play();
     }

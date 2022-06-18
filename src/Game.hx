@@ -23,6 +23,8 @@ class Game extends dn.Process {
   /** UI **/
   public var hud:ui.Hud;
 
+  public var gameLives:Int = 3;
+
   public function new() {
     super(Main.ME);
     ME = this;
@@ -51,6 +53,8 @@ class Game extends dn.Process {
     // Play Game Loop Music
     // bgm = hxd.Res.music.juhani_stage.play(true, 0.5);
     // level = new Level(proj.all_levels.Level_0);
+    // Setup initial state of things within the game.
+    this.gameLives = 3;
     level = new Level(Assets.projData.all_levels.Level_0);
     hud.show();
     fx = new Fx();

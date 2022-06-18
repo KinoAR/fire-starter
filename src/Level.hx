@@ -155,9 +155,14 @@ class Level extends dn.Process {
   }
 
   public function handleGameOver() {
-    if (player.isDead()) {
+    if (player.isDead() && Game.ME.gameLives <= 0) {
       this.pause();
       new GameOver();
+    } else if (player.isDead()) {
+      Game.ME.gameLives--;
+      // Revive Player;
+      player.triggerInvincibility();
+      player.health = 3;
     }
   }
 

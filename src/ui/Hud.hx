@@ -21,6 +21,7 @@ class Hud extends dn.Process {
   var flow:h2d.Flow;
   var invalidated = true;
 
+  var livesText:h2d.Text;
   var timerText:h2d.Text;
   var scoreText:h2d.Text;
   var highScoreText:h2d.Text;
@@ -40,9 +41,13 @@ class Hud extends dn.Process {
     flow.layout = Horizontal;
     flow.paddingLeft = 12;
     flow.horizontalSpacing = 12;
-
+    setupLives();
     setupScore();
     setupTimer();
+  }
+
+  function setupLives() {
+    livesText = smallText('Lives ${Game.ME.gameLives}', flow);
   }
 
   function setupScore() {
@@ -67,6 +72,10 @@ class Hud extends dn.Process {
       renderScore();
       renderTime();
     }
+  }
+
+  function renderLives() {
+    livesText.text = 'Lives ${Game.ME.gameLives}';
   }
 
   function renderScore() {
