@@ -1,5 +1,6 @@
 package en;
 
+import en.Bullet.BulletTag;
 import dn.legacy.Controller.ControllerAccess;
 
 class Player extends BaseEnt {
@@ -11,7 +12,11 @@ class Player extends BaseEnt {
   public static inline var JUMP_FORCE:Float = 1;
   public static inline var HEALTH_CAP:Int = 3;
 
+  public static inline var BULLET_AMT:Int = 5;
+
   public var isInvincible(get, null):Bool;
+
+  public var bulletPool:Group<Bullet>;
 
   public inline function get_isInvincible() {
     return cd.has('invincbleTime');
@@ -25,6 +30,11 @@ class Player extends BaseEnt {
   public function setup() {
     ct = Main.ME.controller.createAccess('player');
 
+    this.bulletPool = new Group<Bullet>();
+
+    for (i in 0...BULLET_AMT) {
+      this.bulletPool.add(new Bullet(this.cx, this.cy, 1, BulletTag.Player));
+    }
     setupStats();
     setupGraphic();
   }
