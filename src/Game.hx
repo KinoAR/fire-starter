@@ -28,6 +28,7 @@ class Game extends dn.Process {
   public function new() {
     super(Main.ME);
     ME = this;
+    setupMouseCursor();
     ca = Main.ME.controller.createAccess("game");
     ca.setLeftDeadZone(0.2);
     ca.setRightDeadZone(0.2);
@@ -43,6 +44,19 @@ class Game extends dn.Process {
     startInitialGame();
     Process.resizeAll();
     trace(Lang.t._("Game is ready."));
+  }
+
+  public function setupMouseCursor() {
+    var cursor = hxd.Res.img.mouse_cursor.toBitmap();
+    var nativeCursor:hxd.Cursor = Custom(new hxd.Cursor.CustomCursor([cursor],
+      0, 0, 0));
+
+    var cursorFn = (cur:hxd.Cursor) -> {
+      hxd.System.setNativeCursor(nativeCursor);
+    };
+
+    hxd.System.setCursor = cursorFn;
+    trace('Setup cursor');
   }
 
   /**
