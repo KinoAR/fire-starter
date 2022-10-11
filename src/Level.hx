@@ -110,12 +110,16 @@ class Level extends dn.Process {
     }
 
     for (eCollector in data.l_Entities.all_Collector) {
-      enemies.add(new Collector(eCollector.cx, eCollector.cy,
-        eCollector.f_Depth));
+      var enemy = new Collector(eCollector.cx, eCollector.cy,
+        eCollector.f_Depth);
+      enemy.points = eCollector.f_Points;
+      enemies.add(enemy);
     }
 
     for (ePeeker in data.l_Entities.all_Peeker) {
-      enemies.add(new Peeker(ePeeker.cx, ePeeker.cy, ePeeker.f_Depth));
+      var enemy = new Peeker(ePeeker.cx, ePeeker.cy, ePeeker.f_Depth);
+      enemy.points = ePeeker.f_Points;
+      enemies.add(enemy);
     }
   }
 
