@@ -1,3 +1,4 @@
+import en.Bullet;
 import en.collectibles.FlameUp;
 import en.collectibles.Gems;
 import hxd.Timer;
@@ -50,6 +51,7 @@ class Level extends dn.Process {
   public var collectibles:Group<Collectible>;
   public var enemies:Group<Enemy>;
   public var player:Player;
+  public var enemyBulletPool:Group<Bullet>;
 
   public var score:Int;
   public var highScore:Int;
@@ -136,6 +138,38 @@ class Level extends dn.Process {
       }
     }
     return false;
+  }
+
+  public function getEnemyCollision(cx:Int, cy:Int) {
+    for (enemy in enemies) {
+      if (enemy.cx == cx && enemy.cy == cy && enemy.isAlive()) {
+        return enemy;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Handled internally to deal with the bullets in game
+   * in a way that doesn't hurt the performance of the game.
+   */
+  public function hasAnyBulletcollision() {
+    // Check the bullet groups of both the player and the enemey
+    // If they overlap with either the player or the  enemy
+
+    // Check Bullets for player overlap enemey
+    // Handles incrementing the points of the player
+    if (player.isAlive()) {
+      for (bullet in player.bulletPool) {
+        var enemy = getEnemyCollision(bullet.cx, bullet.cy);
+        if (enemy != null) {
+          enemy.takeDamage(1);
+          if (!enemy.isAlive()) {
+            this.score += enemy.points;
+          }
+        }
+      }
+    }
   }
 
   public function getCollectible(cx:Int, cy:Int) {
