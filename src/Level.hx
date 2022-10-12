@@ -228,6 +228,7 @@ class Level extends dn.Process {
     super.update();
     handlePause();
     handleGameOver();
+    hasAnyBulletcollision();
   }
 
   override function postUpdate() {
